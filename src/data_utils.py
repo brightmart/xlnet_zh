@@ -550,13 +550,14 @@ def parse_files_to_dataset(parser, file_names, split, num_batch, num_hosts,
                            host_id, num_core_per_host, bsz_per_core):
   # list of file pathes
   num_files = len(file_names)
-  print("####parse_files_to_dataset.1.file_names:",file_names)
+  print("####parse_files_to_dataset.1.file_names:",file_names,len(file_names))
   file_names=['record_info-'+x for x in file_names ]
-  num_files_per_host = num_files // num_hosts
-  my_start_file_id = host_id * num_files_per_host
-  my_end_file_id = (host_id + 1) * num_files_per_host
+  num_files_per_host = num_files // num_hosts  # num_files_per_host=0
+  my_start_file_id = host_id * num_files_per_host # my_start_file_id=0
+  my_end_file_id = (host_id + 1) * num_files_per_host # my_end_file_id=1*32=32
   if host_id == num_hosts - 1:
     my_end_file_id = num_files
+  print("my_start_file_id:",my_start_file_id,";my_end_file_id:",my_end_file_id)
   file_paths = file_names[my_start_file_id: my_end_file_id]
   tf.logging.info("Host %d handles %d files", host_id, len(file_paths))
 
