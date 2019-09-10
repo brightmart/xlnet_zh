@@ -799,10 +799,12 @@ def get_input_fn(
   record_info = {"num_batch": 0, "filenames": []}
 
   tfrecord_dirs = tfrecord_dir.split(",")
+  tfrecord_dirs=[xx for xx in tfrecord_dirs if 'tfrecord' in xx]
   tf.logging.info("Use the following tfrecord dirs: %s", tfrecord_dirs)
 
   for idx, record_dir in enumerate(tfrecord_dirs):
     record_glob = os.path.join(record_dir, record_glob_base)
+    print("####record_glob:",record_glob)
     tf.logging.info("[%d] Record glob: %s", idx, record_glob)
 
     record_paths = sorted(tf.gfile.Glob(record_glob))
