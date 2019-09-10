@@ -72,6 +72,7 @@ def format_filename(prefix, bsz_per_host, seq_len, bi_data, suffix,
   file_name = "{}.bsz-{}.seqlen-{}.{}{}{}.alpha-{}.beta-{}.{}{}".format(
       prefix, bsz_per_host, seq_len, reuse_len_str, uncased_str, bi_data_str,
       mask_alpha, mask_beta, fnp_str, suffix)
+  print("#####file_name:",file_name)
 
   return file_name
 
