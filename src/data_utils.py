@@ -75,7 +75,7 @@ def format_filename(prefix, bsz_per_host, seq_len, bi_data, suffix,
   file_name = "{}.seqlen-{}.{}{}{}.alpha-{}.beta-{}.{}{}".format(
       prefix, seq_len, reuse_len_str, uncased_str, bi_data_str,
       mask_alpha, mask_beta, fnp_str, suffix)
-  print("#####file_name:",file_name)
+  # print("#####file_name:",file_name)
 
   return file_name
 
@@ -550,19 +550,19 @@ def parse_files_to_dataset(parser, file_names, split, num_batch, num_hosts,
                            host_id, num_core_per_host, bsz_per_core):
   # list of file pathes
   num_files = len(file_names)
-  print("####parse_files_to_dataset.1.file_names:",file_names,len(file_names))
+  # print("####parse_files_to_dataset.1.file_names:",file_names,len(file_names))
   # file_names=['record_info-'+x for x in file_names ]
   num_files_per_host = num_files // num_hosts  # num_files_per_host=0
   my_start_file_id = host_id * num_files_per_host # my_start_file_id=0
   my_end_file_id = (host_id + 1) * num_files_per_host # my_end_file_id=1*32=32
   if host_id == num_hosts - 1:
     my_end_file_id = num_files
-  print("my_start_file_id:",my_start_file_id,";my_end_file_id:",my_end_file_id)
+  # print("my_start_file_id:",my_start_file_id,";my_end_file_id:",my_end_file_id)
   file_paths = file_names[my_start_file_id: my_end_file_id]
   tf.logging.info("Host %d handles %d files", host_id, len(file_paths))
 
   assert split == "train"
-  print("####parse_files_to_dataset.2.file_paths:",file_paths)
+  # print("####parse_files_to_dataset.2.file_paths:",file_paths)
   dataset = tf.data.Dataset.from_tensor_slices(file_paths)
 
   # file-level shuffle
@@ -805,17 +805,17 @@ def get_input_fn(
 
   for idx, record_dir in enumerate(tfrecord_dirs):
     record_glob = os.path.join(record_dir, record_glob_base)
-    print("###get_input_fn.record_glob1:",record_glob) # OK. gs://xlnet_zh/tf_records_xlnet/tfrecords/record_info-train-*.seqlen-512.reuse-256.bi.alpha-6.beta-1.fnp-85.json
+    # print("###get_input_fn.record_glob1:",record_glob) # OK. gs://xlnet_zh/tf_records_xlnet/tfrecords/record_info-train-*.seqlen-512.reuse-256.bi.alpha-6.beta-1.fnp-85.json
     tf.logging.info("[%d] Record glob: %s", idx, record_glob)
 
     record_paths = sorted(tf.gfile.Glob(record_glob))
-    print("####get_input_fn.record_paths2:",record_paths)
+    # print("####get_input_fn.record_paths2:",record_paths)
     tf.logging.info("#####get_input_fn.record_paths2:",record_paths)
     tf.logging.info("[%d] Num of record info path: %d",idx, len(record_paths))
 
     #path="gs://xlnet_zh/tf_records_xlnet/tfrecords/"
     # record_paths = [f for f in glob.glob(tfrecord_dir + "*.json")] ### TODO TODO ADD, , recursive=True. check issue:https://github.com/zihangdai/xlnet/issues/85
-    print("#####get_input_fn.record_paths3:",record_paths)
+    # print("#####get_input_fn.record_paths3:",record_paths)
     cur_record_info = {"num_batch": 0, "filenames": []}
 
     for record_info_path in record_paths:
