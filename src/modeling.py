@@ -468,7 +468,7 @@ def transformer_xl(inp_k, n_token, n_layer, d_model, n_head,
       r_r_bias = tf.get_variable('r_r_bias', [n_head, d_head],
                                  dtype=tf_float, initializer=initializer)
 
-      bsz = inp_k.get_shape()[1] #bsz = tf.shape(inp_k)[1]
+    bsz = inp_k.get_shape()[1] #bsz = tf.shape(inp_k)[1]
 
     qlen = tf.shape(inp_k)[0]
     mlen = tf.shape(mems[0])[0] if mems is not None else 0
