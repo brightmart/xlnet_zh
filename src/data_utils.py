@@ -804,17 +804,17 @@ def get_input_fn(
 
   for idx, record_dir in enumerate(tfrecord_dirs):
     record_glob = os.path.join(record_dir, record_glob_base)
-    print("####record_glob:",record_glob)
+    print("###get_input_fn.record_glob1:",record_glob) # OK. gs://xlnet_zh/tf_records_xlnet/tfrecords/record_info-train-*.seqlen-512.reuse-256.bi.alpha-6.beta-1.fnp-85.json
     tf.logging.info("[%d] Record glob: %s", idx, record_glob)
 
     record_paths = sorted(tf.gfile.Glob(record_glob))
-    tf.logging.info("#######get_input_fn.@@@@@.record_paths:",record_paths)
-    tf.logging.info("[%d] Num of record info path: %d",
-                    idx, len(record_paths))
+    print("####get_input_fn.record_paths2:",record_paths)
+    tf.logging.info("#####get_input_fn.record_paths2:",record_paths)
+    tf.logging.info("[%d] Num of record info path: %d",idx, len(record_paths))
 
     #path="gs://xlnet_zh/tf_records_xlnet/tfrecords/"
-    record_paths = [f for f in glob.glob(tfrecord_dir + "*.json")] ### TODO TODO ADD, , recursive=True. check issue:https://github.com/zihangdai/xlnet/issues/85
-    print("#####record_paths:",record_paths)
+    # record_paths = [f for f in glob.glob(tfrecord_dir + "*.json")] ### TODO TODO ADD, , recursive=True. check issue:https://github.com/zihangdai/xlnet/issues/85
+    print("#####get_input_fn.record_paths3:",record_paths)
     cur_record_info = {"num_batch": 0, "filenames": []}
 
     for record_info_path in record_paths:
