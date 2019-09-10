@@ -233,7 +233,7 @@ def relative_positional_encoding(qlen, klen, d_model, clamp_len, attn_type,
 
     if bsz is not None:
       # With bi_data, the batch size should be divisible by 2.
-      # assert bsz%2 == 0
+      assert bsz%2 == 0
       tf.debugging.assert_equal(bsz % 2, 0)
       fwd_pos_emb = positional_embedding(fwd_pos_seq, inv_freq, bsz//2)
       bwd_pos_emb = positional_embedding(bwd_pos_seq, inv_freq, bsz//2)
@@ -468,7 +468,8 @@ def transformer_xl(inp_k, n_token, n_layer, d_model, n_head,
       r_r_bias = tf.get_variable('r_r_bias', [n_head, d_head],
                                  dtype=tf_float, initializer=initializer)
 
-    bsz = tf.shape(inp_k)[1]
+      bsz = inp_k.get_shape()[1] #bsz = tf.shape(inp_k)[1]
+
     qlen = tf.shape(inp_k)[0]
     mlen = tf.shape(mems[0])[0] if mems is not None else 0
     klen = mlen + qlen
