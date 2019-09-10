@@ -54,8 +54,8 @@ def configure_tpu(FLAGS):
   #        num_shards=FLAGS.num_tpu_cores,
   #        per_host_input_for_training=is_per_host))
   #############################
+  #master = master,
   run_config = tf.contrib.tpu.RunConfig(
-      master=master,
       cluster=tpu_cluster,
       model_dir=FLAGS.model_dir,
       session_config=session_config,
