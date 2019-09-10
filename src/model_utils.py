@@ -18,7 +18,7 @@ import tensorflow as tf
 def configure_tpu(FLAGS):
   if FLAGS.use_tpu:
     tpu_cluster = tf.contrib.cluster_resolver.TPUClusterResolver(
-        FLAGS.tpu, zone=FLAGS.tpu_zone, project=FLAGS.gcp_project)
+        tpu=FLAGS.tpu, zone=FLAGS.tpu_zone, project=FLAGS.gcp_project)
     master = tpu_cluster.get_master()
   else:
     tpu_cluster = None
@@ -41,13 +41,27 @@ def configure_tpu(FLAGS):
                     strategy.num_replicas_in_sync)
 
   per_host_input = tf.contrib.tpu.InputPipelineConfig.PER_HOST_V2
+
+  ###########BELOW IS RIGHT################
+  #run_config = tf.contrib.tpu.RunConfig(
+  #    keep_checkpoint_max=20, # 10
+  #    cluster=tpu_cluster_resolver,
+  #    master=FLAGS.master,
+  #    model_dir=FLAGS.output_dir,
+  #    save_checkpoints_steps=FLAGS.save_checkpoints_steps,
+  #    tpu_config=tf.contrib.tpu.TPUConfig(
+  #        iterations_per_loop=FLAGS.iterations_per_loop,
+  #        num_shards=FLAGS.num_tpu_cores,
+  #        per_host_input_for_training=is_per_host))
+  #############################
   run_config = tf.contrib.tpu.RunConfig(
       master=master,
+      cluster=tpu_cluster,
       model_dir=FLAGS.model_dir,
       session_config=session_config,
       tpu_config=tf.contrib.tpu.TPUConfig(
           iterations_per_loop=FLAGS.iterations,
-          num_shards=FLAGS.num_tpu_cores, #FLAGS.num_hosts * FLAGS.num_core_per_host,
+          num_shards=FLAGS.num_hosts * FLAGS.num_core_per_host,
           per_host_input_for_training=per_host_input),
       keep_checkpoint_max=FLAGS.max_save,
       save_checkpoints_secs=None,

@@ -19,8 +19,8 @@ import data_utils
 
 # TPU parameters
 
-flags.DEFINE_integer("num_tpu_cores", default=256,
-      help="number of total cores")
+#flags.DEFINE_integer("num_tpu_cores", default=256,
+#      help="number of total cores")
 flags.DEFINE_string("master", default=None,
       help="master")
 flags.DEFINE_string("tpu", default=None,
@@ -78,7 +78,7 @@ flags.DEFINE_integer("iterations", default=1000,
 flags.DEFINE_integer("save_steps", default=None,
       help="Number of steps for model checkpointing. "
       "None for not saving checkpoints")
-flags.DEFINE_integer("max_save", default=100000,
+flags.DEFINE_integer("max_save", default=200000,
       help="Maximum number of checkpoints to save.")
 
 # Data config
