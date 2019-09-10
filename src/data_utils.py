@@ -12,7 +12,7 @@ from absl import flags
 import absl.logging as _logging  # pylint: disable=unused-import
 
 import numpy as np
-
+import glob
 
 import tensorflow as tf
 
@@ -806,6 +806,9 @@ def get_input_fn(
     tf.logging.info("[%d] Num of record info path: %d",
                     idx, len(record_paths))
 
+    #path="gs://xlnet_zh/tf_records_xlnet/tfrecords/"
+    record_paths = [f for f in glob.glob(tfrecord_dir + "*.json", recursive=True)] ### TODO TODO ADD
+    print("#####record_paths:",record_paths)
     cur_record_info = {"num_batch": 0, "filenames": []}
 
     for record_info_path in record_paths:
