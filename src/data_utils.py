@@ -550,6 +550,8 @@ def parse_files_to_dataset(parser, file_names, split, num_batch, num_hosts,
                            host_id, num_core_per_host, bsz_per_core):
   # list of file pathes
   num_files = len(file_names)
+  print("####parse_files_to_dataset.1.file_names:",file_names)
+
   num_files_per_host = num_files // num_hosts
   my_start_file_id = host_id * num_files_per_host
   my_end_file_id = (host_id + 1) * num_files_per_host
@@ -559,6 +561,7 @@ def parse_files_to_dataset(parser, file_names, split, num_batch, num_hosts,
   tf.logging.info("Host %d handles %d files", host_id, len(file_paths))
 
   assert split == "train"
+  print("####parse_files_to_dataset.2.file_paths:",file_paths)
   dataset = tf.data.Dataset.from_tensor_slices(file_paths)
 
   # file-level shuffle
@@ -803,6 +806,7 @@ def get_input_fn(
     tf.logging.info("[%d] Record glob: %s", idx, record_glob)
 
     record_paths = sorted(tf.gfile.Glob(record_glob))
+    tf.logging.info("#######get_input_fn.@@@@@.record_paths:",record_paths)
     tf.logging.info("[%d] Num of record info path: %d",
                     idx, len(record_paths))
 
