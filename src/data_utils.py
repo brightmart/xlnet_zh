@@ -807,7 +807,7 @@ def get_input_fn(
                     idx, len(record_paths))
 
     #path="gs://xlnet_zh/tf_records_xlnet/tfrecords/"
-    record_paths = [f for f in glob.glob(tfrecord_dir + "*.json", recursive=True)] ### TODO TODO ADD
+    record_paths = [f for f in glob.glob(tfrecord_dir + "*.json")] ### TODO TODO ADD, , recursive=True. check issue:https://github.com/zihangdai/xlnet/issues/85
     print("#####record_paths:",record_paths)
     cur_record_info = {"num_batch": 0, "filenames": []}
 
