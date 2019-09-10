@@ -551,7 +551,7 @@ def parse_files_to_dataset(parser, file_names, split, num_batch, num_hosts,
   # list of file pathes
   num_files = len(file_names)
   print("####parse_files_to_dataset.1.file_names:",file_names)
-
+  file_names=['record_info-'+x for x in file_names ]
   num_files_per_host = num_files // num_hosts
   my_start_file_id = host_id * num_files_per_host
   my_end_file_id = (host_id + 1) * num_files_per_host
