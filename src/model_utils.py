@@ -47,7 +47,7 @@ def configure_tpu(FLAGS):
       session_config=session_config,
       tpu_config=tf.contrib.tpu.TPUConfig(
           iterations_per_loop=FLAGS.iterations,
-          num_shards=FLAGS.num_hosts * FLAGS.num_core_per_host,
+          num_shards=FLAGS.num_tpu_cores, #FLAGS.num_hosts * FLAGS.num_core_per_host,
           per_host_input_for_training=per_host_input),
       keep_checkpoint_max=FLAGS.max_save,
       save_checkpoints_secs=None,

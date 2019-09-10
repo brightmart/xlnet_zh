@@ -18,6 +18,9 @@ import function_builder
 import data_utils
 
 # TPU parameters
+
+flags.DEFINE_integer("num_tpu_cores", default=256,
+      help="number of total cores")
 flags.DEFINE_string("master", default=None,
       help="master")
 flags.DEFINE_string("tpu", default=None,
@@ -41,7 +44,7 @@ flags.DEFINE_bool("track_mean", default=False,
 # Experiment (data/checkpoint/directory) config
 flags.DEFINE_integer("num_passes", default=1,
       help="Number of passed used for training.")
-flags.DEFINE_string("record_info_dir", default=None,
+flags.DEFINE_string("", default=None,
       help="Path to local directory containing `record_info-lm.json`.")
 flags.DEFINE_string("model_dir", default=None,
       help="Estimator model_dir.")
