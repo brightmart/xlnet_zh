@@ -38,7 +38,7 @@ flags.DEFINE_integer("num_hosts", default=1,
       help="number of TPU hosts")
 flags.DEFINE_integer("num_core_per_host", default=8,
       help="number of cores per host")
-flags.DEFINE_bool("track_mean", default=False,
+flags.DEFINE_bool("track_mean", default=True,
       help="Whether to track mean loss.")
 
 # Experiment (data/checkpoint/directory) config
