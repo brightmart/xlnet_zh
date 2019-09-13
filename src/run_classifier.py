@@ -855,7 +855,7 @@ def main(_):
 
     # here we use epoch number to calculate total train_steps
     train_steps = int(len(train_examples) * FLAGS.num_train_epochs / FLAGS.train_batch_size)
-    FLAGS.warmup_steps = int(0.1 * train_steps)
+    FLAGS.warmup_steps =int(0.2 * train_steps) #  int(0.1 * train_steps)
 
     train_input_fn = file_based_input_fn_builder(
         input_file=train_file,
