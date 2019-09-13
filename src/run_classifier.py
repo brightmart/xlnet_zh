@@ -370,8 +370,10 @@ class LCQMCPairClassificationProcessor(DataProcessor):
       guid = "%s-%s" % (set_type, i)
       try:
           label = line[2]
-          text_a = line[0]
-          text_b = line[1]
+          text_a = line[0].strip().replace(' ','')
+          text_b = line[1].strip().replace(' ','')
+          if i < 5: # print for debug purpose only
+            print("label:",str(label),";text_a:",text_a,";text_b:",text_b)
           examples.append(
               InputExample(guid=guid, text_a=text_a, text_b=text_b, label=label))
       except Exception:
