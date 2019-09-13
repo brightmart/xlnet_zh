@@ -10,26 +10,24 @@ XLNet是CMU和谷歌大脑在2019年6月份，提出的一个新的预训练模�
 
 本项目参考<a href="https://github.com/ymcui/Chinese-PreTrained-XLNet">[2]</a>的工作，结合海量数据，训练了一个24层的中文XLNet_zh_Large模型，含3亿多参数。
 
-##### 训练数据和计算资源
+#### 训练数据和计算资源 Training Corpus & Training Details
 
-训练数据，包括新闻、互动讨论、百科，超过30G原始文本，近100亿个中文字，与RoBERTa_zh项目使用相同的数据。
+训练数据，包括新闻、互动讨论、百科，超过30G原始文本，近100亿个中文字； 本项目与中文预训练RoBERTa<a href="https://github.com/brightmart/roberta_zh">RoBERTa_zh</a>项目，使用相同的训练数据。
  
 使用Google TPU v3-256 训练2天得到；包含32个v3-8机器，每个v3-8机器包含128G的显存；训练了20万步，使用序列长度(sequence_length)512，批次(batch_size)为512。
 
-##### 注意事项
+#### 注意事项 Notices
 
 XLNet_zh_Large还没有完整测试，可能在你的任务中有极好的表现，也可能在部分任务中有糟糕的表现。我们预计既会有好消息，也有坏消息；但目前在句子对任务中(LCQMC任务)是坏消息。
 
-##### 提供您的测试对比
+#### 提供您的测试对比 Performance
 如果你使用本项目的中文预训练模型，请告诉你的测试对比效果：你可以直接发生pull request将你的任务中的测试对比添加到README.md中，或发在issue中；
 
 你也可以加入中文预训练模型transformers讨论群(QQ:836811304)，并把测试对比告知我们。
 
-XLNet中文预训练模型-下载
+XLNet中文预训练模型-下载 Download Pre-trained XLNet trained with Chinese, by Chinese, for Chinese
 --------------------------------------------------------------
-XLNet_zh_Large，<a href="">Google drive</a> 或 百度网盘，TensorFlow版本
-
-XLNet_zh_Large，，<a href="">Google drive</a> 或 百度网盘，PyTorch版本
+XLNet_zh_Large，<a href="">Google drive</a> 或 <a href="https://pan.baidu.com/s/1dy0Z27DoZdMpSmoz1Q4G5A">百度网盘</a>，TensorFlow版本
 
 #### 如何保留从左到右的方式预测（就像传统的语言模型一样），但还能利用下文的信息？
 
@@ -37,7 +35,7 @@ XLNet_zh_Large，，<a href="">Google drive</a> 或 百度网盘，PyTorch版本
     1.input_list:   [1, 2, 3, 4, 5, 6]
     2.sampled_list: [2, 4, 6, 5, 3, 1]
     3.array_2d:
-                     [[0. 1. 1. 1. 1. 1.]
+                    [[0. 1. 1. 1. 1. 1.]
                      [0. 0. 0. 0. 0. 0.]
                      [0. 1. 0. 1. 1. 1.]
                      [0. 1. 0. 0. 0. 0.]
@@ -86,7 +84,7 @@ XLNet_zh_Large，，<a href="">Google drive</a> 或 百度网盘，PyTorch版本
 
 效果测试与对比 Performance
 --------------------------------------------------------------
-请您添加。数据库不限，包括XNLI\LCQMC\阅读理解数据集CMRC\CCF-Sentiment-Analysis等等。
+请您报告并添加。数据集或任务不限，包括XNLI、LCQMC、阅读理解数据集CMRC、CCF-Sentiment-Analysis等等。
 
 模型加载（以Sentence Pair Matching即句子对任务，LCQMC为例）
 --------------------------------------------------------------
@@ -95,7 +93,7 @@ XLNet_zh_Large，，<a href="">Google drive</a> 或 百度网盘，PyTorch版本
 --------------------------------------------------------------
 1、生成tfrecords:
 
-    SAVE_DIR=gs://xlnet_zh/tf_records_xlnet_all
+    SAVE_DIR=gs://xlnet_zh/tf_records_xlnet
     INPUT=gs://raw_text/data_2019_raw/*.txt 
     nohup python -u data_utils.py \
         --bsz_per_host=32 \
@@ -116,9 +114,9 @@ XLNet_zh_Large，，<a href="">Google drive</a> 或 百度网盘，PyTorch版本
 
 2、训练模型:
 
-    DATA=gs://xlnet_zh/tf_records_xlnet_all/tfrecords/
+    DATA=gs://xlnet_zh/tf_records_xlnet/tfrecords/
     MODEL_DIR=gs://xlnet_zh/xlnet_zh_large
-    TPU_NAME=xlnet-zh-layer24-v3-256 
+    TPU_NAME=xlnet-zh-large-v3-256 
     TPU_ZONE=europe-west4-a
     nohup python train.py \
         --record_info_dir=$DATA \
@@ -162,7 +160,7 @@ fine-tuning(以LCQMC任务为例)
     MODEL_DIR=gs://xlnet_zh/fine_tuning_test/lcqmc_01
     DATA_DIR=gs://xlnet_zh/fine_tuning_test/lcqmc_01/lcqmc_tfrecords
     RAW_DIR=gs://roberta_zh/compare_model_performance/lcqmc
-    TPU_NAME=grpc://10.242.1.76:8470
+    TPU_NAME=grpc://03.06.08.09:8470
     TPU_ZONE=us-central1-a
     nohup python -u run_classifier.py \
         --spiece_model_file=./spiece.model \
@@ -187,6 +185,8 @@ fine-tuning(以LCQMC任务为例)
         --use_tpu=True \
         --tpu=${TPU_NAME} \
         --tpu_zone=${TPU_ZONE} >> xlnet_large_lcqmc_1.out &
+
+    注: TPU_NAME is dummy, you should change IP to real one
 	
 Learning Curve 学习曲线
 --------------------------------------------------------------
