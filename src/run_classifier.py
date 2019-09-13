@@ -345,7 +345,7 @@ class LCQMCPairClassificationProcessor(DataProcessor):
         self._read_tsv(os.path.join(data_dir, "train.txt")), "train")
     # dev_0827.tsv
 
-  def get_dev_examples(self, data_dir):
+  def get_devtest_examples(self, data_dir, set_type="dev"):
     """See base class."""
     return self._create_examples(
         self._read_tsv(os.path.join(data_dir, "dev.txt")), "dev")
