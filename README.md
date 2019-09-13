@@ -12,7 +12,7 @@ XLNet是CMU和谷歌大脑在2019年6月份，提出的一个新的预训练模�
 
 #### 训练数据和计算资源 Training Corpus & Training Details
 
-训练数据，包括新闻、互动讨论、百科，超过30G原始文本，近100亿个中文字； 本项目与中文预训练RoBERTa<a href="https://github.com/brightmart/roberta_zh">RoBERTa_zh</a>项目，使用相同的训练数据。
+训练数据，包括新闻、互动讨论、百科，超过30G原始文本，近100亿个中文字； 本项目与中文预训练RoBERTa模型的<a href="https://github.com/brightmart/roberta_zh">RoBERTa_zh</a>项目，使用相同的训练数据。
  
 使用Google TPU v3-256 训练2天得到；包含32个v3-8机器，每个v3-8机器包含128G的显存；训练了20万步，使用序列长度(sequence_length)512，批次(batch_size)为512。
 
