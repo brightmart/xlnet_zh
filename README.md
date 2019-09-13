@@ -25,12 +25,25 @@ XLNet_zh_Large还没有完整测试，可能在你的任务中有极好的表现
 
 你也可以加入中文预训练模型transformers讨论群(QQ:836811304)，并把测试对比告知我们。
 
-XLNet中文预训练模型-下载 Download Pre-trained XLNet trained with Chinese, by Chinese, for Chinese
+XLNet中文预训练模型-下载 Download Pre-trained XLNet, for Chinese tasks
 --------------------------------------------------------------
-XLNet_zh_Large，<a href="">Google drive</a> 或 <a href="https://pan.baidu.com/s/1dy0Z27DoZdMpSmoz1Q4G5A">百度网盘</a>，TensorFlow版本
+XLNet_zh_Large， <a href="https://pan.baidu.com/s/1dy0Z27DoZdMpSmoz1Q4G5A">百度网盘</a>，或 <a href="#">Google drive</a>，TensorFlow版本
 
-#### 如何保留从左到右的方式预测（就像传统的语言模型一样），但还能利用下文的信息？
+    暂时没有去掉adam参数，去掉后模型会变成1.3G左右。
+    
+    XLNet_zh_Large_L-24_H-1024_A-16.zip 
+      |- xlnet_model.ckpt    # 模型权重
+      |- xlnet_model.index   # 模型meta信息
+      |- xlnet_model.meta    # 模型index新
+      |- xlnet_config.json： # 配置文件
+      |- spiece.model:       # 词汇表
 
+PyTorch版本，可使用类似的命名来转换，具体建<a href="#">pytorch_transformers</a>项目：
+
+    python -u -m pytorch_transformers.convert_tf_checkpoint_to_pytorch --tf_checkpoint_path XLNet-zh-Large-PyTorch/ --bert_config_file XLNet-zh-Large-PyTorch/config.json --pytorch_dump_path XLNet-zh-Large-PyTorch/xlnet_zh_large_pytorch_model.bin
+
+如何保留从左到右的方式预测（就像传统的语言模型一样），但还能利用下文的信息？
+--------------------------------------------------------------
     
     1.input_list:   [1, 2, 3, 4, 5, 6]
     2.sampled_list: [2, 4, 6, 5, 3, 1]
@@ -84,7 +97,9 @@ XLNet_zh_Large，<a href="">Google drive</a> 或 <a href="https://pan.baidu.com/
 
 效果测试与对比 Performance
 --------------------------------------------------------------
-请您报告并添加。数据集或任务不限，包括XNLI、LCQMC、阅读理解数据集CMRC、CCF-Sentiment-Analysis等等。
+请您报告并添加。
+
+数据集或任务不限，包括XNLI、LCQMC、阅读理解数据集CMRC、CCF-Sentiment-Analysis等等。
 
 模型加载（以Sentence Pair Matching即句子对任务，LCQMC为例）
 --------------------------------------------------------------
@@ -111,6 +126,20 @@ XLNet_zh_Large，<a href="">Google drive</a> 或 <a href="https://pan.baidu.com/
         --uncased=False \
         --num_task=200 \
         --task=1 &
+
+第一步假设你已经有了词汇表（本项目中的词汇表位于src/spiece.model）；如果你需要建立生成自己的词汇表见下方，更多信息参考：<a href="https://github.com/google/sentencepiece">SentencePiece</a>
+
+生成词汇表：
+spm_train \
+	--input=gs://raw_text/data_2019_raw/*.txt  \
+	--model_prefix=sp10m.cased.v3 \
+	--vocab_size=32000 \
+	--character_coverage=0.99995 \
+	--model_type=unigram \
+	--control_symbols=\<cls\>,\<sep\>,\<pad\>,\<mask\>,\<eod\> \
+	--user_defined_symbols=\<eop\>,.,\(,\),\",-,–,£,€ \
+	--shuffle_input_sentence \
+	--input_sentence_size=200000000
 
 2、训练模型:
 
